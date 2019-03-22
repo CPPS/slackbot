@@ -3,7 +3,7 @@
 This php script is to be improved
 Made by Pieter Voors
 Made for the TU/e CPPS Honors track's website
-Last updated: 2019-02-06
+Last updated: 2019-03-22
 
 This script is to be called ones every minute (for example by a cronjob) and updates every 10 seconds. The intervals can be changed in the config.php file.
 
@@ -62,6 +62,10 @@ for ($i = 0; $i < $LENGTH; $i += $INTERVAL) {
 	if ($result->num_rows > 0) {
 		while($judging = $result->fetch_assoc()) {
 			// New submission
+			if (is_null($judging["result"])) {
+				// Judging not done yet. Wait for next time
+				break;
+			}
 			if ($judging["judgingid"] > $lastid) {
 				$lastid = $judging["judgingid"];
 			}
